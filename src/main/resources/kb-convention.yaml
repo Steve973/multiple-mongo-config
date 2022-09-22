@@ -1,0 +1,7 @@
+collections:
+  - type: assertion
+    name: assertions
+  - type: event
+    name: events
+  - type: evidence
+    name: evidence

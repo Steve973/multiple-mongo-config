@@ -1,0 +1,11 @@
+/home/steve/IdeaProjects/multiple-mongo-connections/src/main/java/com/example/multiplemongoconnections/config/YamlPropertySourceFactory.java
+/home/steve/IdeaProjects/multiple-mongo-connections/src/main/java/com/example/multiplemongoconnections/config/datasource/KnowledgeBaseDataSourceConfiguration.java
+/home/steve/IdeaProjects/multiple-mongo-connections/src/main/java/com/example/multiplemongoconnections/config/properties/InstanceProperties.java
+/home/steve/IdeaProjects/multiple-mongo-connections/src/main/java/com/example/multiplemongoconnections/config/ModuleConfiguration.java
+/home/steve/IdeaProjects/multiple-mongo-connections/src/main/java/com/example/multiplemongoconnections/config/properties/DataSourcesProperties.java
+/home/steve/IdeaProjects/multiple-mongo-connections/src/main/java/com/example/multiplemongoconnections/model/Item.java
+/home/steve/IdeaProjects/multiple-mongo-connections/src/main/java/com/example/multiplemongoconnections/MultipleMongoConnectionsApplication.java
+/home/steve/IdeaProjects/multiple-mongo-connections/src/main/java/com/example/multiplemongoconnections/config/properties/DatabaseProperties.java
+/home/steve/IdeaProjects/multiple-mongo-connections/src/main/java/com/example/multiplemongoconnections/config/properties/SystemDataProperties.java
+/home/steve/IdeaProjects/multiple-mongo-connections/src/main/java/com/example/multiplemongoconnections/config/properties/KnowledgeBaseProperties.java
+/home/steve/IdeaProjects/multiple-mongo-connections/src/main/java/com/example/multiplemongoconnections/config/datasource/SystemDataSourceConfiguration.java

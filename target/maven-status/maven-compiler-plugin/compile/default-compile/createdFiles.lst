@@ -1,0 +1,11 @@
+com/example/multiplemongoconnections/config/properties/DataSourcesProperties.class
+com/example/multiplemongoconnections/config/properties/DatabaseProperties.class
+com/example/multiplemongoconnections/config/properties/SystemDataProperties.class
+com/example/multiplemongoconnections/config/datasource/SystemDataSourceConfiguration.class
+com/example/multiplemongoconnections/config/properties/InstanceProperties.class
+com/example/multiplemongoconnections/config/YamlPropertySourceFactory.class
+com/example/multiplemongoconnections/config/properties/KnowledgeBaseProperties.class
+com/example/multiplemongoconnections/config/datasource/KnowledgeBaseDataSourceConfiguration.class
+com/example/multiplemongoconnections/model/Item.class
+com/example/multiplemongoconnections/config/ModuleConfiguration.class
+com/example/multiplemongoconnections/MultipleMongoConnectionsApplication.class

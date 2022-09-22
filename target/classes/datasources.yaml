@@ -1,0 +1,43 @@
+datasources:
+  system:
+    servers:
+      - 'localhost:27017'
+    provider: mongodb
+    database: db1
+    username: user1
+    password: password1
+  knowledgeBases:
+    - id: KB1
+      name: Mission1
+      instances:
+        - servers:
+            - 'localhost:27017'
+          provider: mongodb
+          databases:
+            - name: m1a
+              description: Mission1 older data
+              username: user1
+              password: password1
+            - name: m1e
+              description: Mission1 latest data
+              username: user2
+              password: password2
+      metadata:
+        missionId: 12345
+    - id: KB2
+      name: Mission2
+      instances:
+        - servers:
+            - 'localhost:27020'
+          provider: mongodb
+          databases:
+            - name: m2a
+              description: Mission2 older data
+              username: user3
+              password: password3
+            - name: m2e
+              description: Mission2 latest data
+              username: user4
+              password: password4
+      metadata:
+        missionId: 23456
