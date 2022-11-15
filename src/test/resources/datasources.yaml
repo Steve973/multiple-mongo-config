@@ -1,0 +1,5 @@
+datasources:
+  entries:
+    - name: source1
+      uri: mongodb://localhost:27027
+      fq_collection: test.coll1

@@ -1,8 +1,8 @@
 package com.example.multiplemongoconnections;
 
+import com.example.multiplemongoconnections.config.DataSourceEntry;
+import com.example.multiplemongoconnections.config.DataSourcesProperties;
 import com.example.multiplemongoconnections.config.YamlPropertySourceFactory;
-import com.example.multiplemongoconnections.config.properties.DataSourceEntry;
-import com.example.multiplemongoconnections.config.properties.DataSourcesProperties;
 import com.example.multiplemongoconnections.model.Item;
 import com.example.multiplemongoconnections.repository.ItemRepository;
 import com.example.multiplemongoconnections.repository.ItemRepositoryCustomImpl;
@@ -36,7 +36,6 @@ import org.springframework.data.mongodb.core.mapping.MongoPersistentEntity;
 import org.springframework.data.mongodb.core.mapping.MongoPersistentProperty;
 import org.springframework.data.mongodb.repository.support.MappingMongoEntityInformation;
 import org.springframework.data.mongodb.repository.support.MongoRepositoryFactory;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -48,15 +47,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
-@TestPropertySource(properties = {
-        "spring.mongodb.embedded.version=4.0.21"
-})
 @EnableAutoConfiguration(exclude = {
         MongoAutoConfiguration.class,
         MongoDataAutoConfiguration.class,
         MongoRepositoriesAutoConfiguration.class
 })
-@ActiveProfiles("test")
+@TestPropertySource(properties = "spring.mongodb.embedded.version=4.0.21")
 public class MultipleMongoDatabaseTest {
 
     MongodExecutable mongodExecutable;
@@ -98,7 +94,7 @@ public class MultipleMongoDatabaseTest {
 
     @TestConfiguration
     @EnableConfigurationProperties(DataSourcesProperties.class)
-    @PropertySource(value = "classpath:datasources-test.yaml", factory = YamlPropertySourceFactory.class)
+    @PropertySource(value = "classpath:datasources.yaml", factory = YamlPropertySourceFactory.class)
     public static class TestDataSourceConfiguration {
 
         @Bean

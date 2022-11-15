@@ -1,4 +1,4 @@
-package com.example.multiplemongoconnections.config.properties;
+package com.example.multiplemongoconnections.config;
 
 import lombok.Data;
 
