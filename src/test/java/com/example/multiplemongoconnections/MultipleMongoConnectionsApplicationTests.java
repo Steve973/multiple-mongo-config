@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 @SpringBootTest
 @EnableConfigurationProperties(DataSourcesProperties.class)
 class MultipleMongoConnectionsApplicationTests {
@@ -20,6 +22,6 @@ class MultipleMongoConnectionsApplicationTests {
 
     @Test
     void configurationPropertiesLoad() {
-        Assertions.assertEquals("db1", dataSourcesProperties.getSystem().getDatabase());
+        Assertions.assertEquals("db1.coll1", dataSourcesProperties.getEntries().get(0).getFqCollection());
     }
 }

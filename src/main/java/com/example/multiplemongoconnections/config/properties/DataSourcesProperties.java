@@ -9,7 +9,5 @@ import java.util.List;
 @ConfigurationProperties(prefix = "datasources")
 public class DataSourcesProperties {
 
-    private SystemDataProperties system;
-
-    private List<KnowledgeBaseProperties> knowledgeBases;
+    private List<DataSourceEntry> entries;
 }
