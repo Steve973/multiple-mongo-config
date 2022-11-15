@@ -89,20 +89,22 @@ public class MultipleMongoDatabaseTest {
         repo.save(item);
 
         // then find the item that was persisted
-        Collection<Item> foundCustom = repo.findAll();
-        assertEquals(1, foundCustom.size());
+        Collection<Item> foundByCustomImplMethod = repo.findAll();
+        assertEquals(1, foundByCustomImplMethod.size());
 
         // and using the interface searches in a collection named after the model class
         // which is wrong, so none will be found
-        Collection<Item> foundInterface = repo.findByName("test item");
-        assertEquals(0, foundInterface.size());
+        Collection<Item> foundByInterfaceMethod = repo.findByName("test item");
+        assertEquals(0, foundByInterfaceMethod.size());
 
         // and this verifies that the item can be found by name when a method from the
         // custom implementation is used
-        Item foundOne = repo.findOne(Example.of(Item.builder()
-                .name("test item")
-                .build()))
-                .orElse(null);
+        Item foundOne = repo.findOne(
+                Example.of(
+                        Item.builder()
+                                .name("test item")
+                                .build()))
+                                .orElse(null);
         assertNotNull(foundOne);
     }
 
