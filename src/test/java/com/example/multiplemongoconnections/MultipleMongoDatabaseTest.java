@@ -15,6 +15,7 @@ import de.flapdoodle.embed.mongo.config.MongodConfig;
 import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,9 +42,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @TestPropertySource(properties = {
@@ -62,12 +64,17 @@ public class MultipleMongoDatabaseTest {
     @BeforeEach
     public void setup() throws IOException {
         MongodConfig mongodConfig = ImmutableMongodConfig.builder()
-                .version(Version.Main.PRODUCTION)
+                .version(Version.Main.V4_4)
                 .net(new Net("localhost", 27027, Network.localhostIsIPv6()))
                 .build();
         MongodStarter starter = MongodStarter.getDefaultInstance();
         mongodExecutable = starter.prepare(mongodConfig);
         mongodExecutable.start();
+    }
+
+    @AfterEach
+    public void afterEach() {
+        mongodExecutable.stop();
     }
 
     @Test
@@ -82,9 +89,11 @@ public class MultipleMongoDatabaseTest {
         repo.save(item);
 
         // then
-        List<Item> items = repo.findAll();
-        Item foundItem = items.get(0);
-        assertNotNull(foundItem);
+        Collection<Item> foundCustom = repo.findAll();
+        assertEquals(1, foundCustom.size());
+
+        Collection<Item> foundInterface = repo.findByName("test item");
+        assertEquals(0, foundInterface.size());
     }
 
     @TestConfiguration
