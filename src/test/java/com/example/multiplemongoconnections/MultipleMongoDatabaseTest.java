@@ -24,9 +24,12 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
 import org.springframework.boot.autoconfigure.data.mongo.MongoRepositoriesAutoConfiguration;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.mapping.context.MappingContext;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
@@ -36,10 +39,10 @@ import org.springframework.data.mongodb.core.mapping.MongoPersistentEntity;
 import org.springframework.data.mongodb.core.mapping.MongoPersistentProperty;
 import org.springframework.data.mongodb.repository.support.MappingMongoEntityInformation;
 import org.springframework.data.mongodb.repository.support.MongoRepositoryFactory;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -48,21 +51,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @EnableAutoConfiguration(exclude = {
+        EmbeddedMongoAutoConfiguration.class,
         MongoAutoConfiguration.class,
         MongoDataAutoConfiguration.class,
         MongoRepositoriesAutoConfiguration.class
 })
-@TestPropertySource(properties = "spring.mongodb.embedded.version=4.0.21")
 public class MultipleMongoDatabaseTest {
 
     MongodExecutable mongodExecutable;
 
+    @Autowired
+    MongodConfig mongodConfig;
+
     @BeforeEach
     public void setup() throws IOException {
-        MongodConfig mongodConfig = ImmutableMongodConfig.builder()
-                .version(Version.Main.V4_4)
-                .net(new Net("localhost", 27027, Network.localhostIsIPv6()))
-                .build();
         MongodStarter starter = MongodStarter.getDefaultInstance();
         mongodExecutable = starter.prepare(mongodConfig);
         mongodExecutable.start();
@@ -98,6 +100,16 @@ public class MultipleMongoDatabaseTest {
     public static class TestDataSourceConfiguration {
 
         @Bean
+        public MongodConfig mongodConfig() throws UnknownHostException {
+            return ImmutableMongodConfig.builder()
+                    .version(Version.Main.V4_4)
+                    .net(new Net("localhost", 27027, Network.localhostIsIPv6()))
+                    .build();
+        }
+
+        @Bean
+        @Lazy
+        @DependsOn("mongodConfig")
         public List<ItemRepository> repositories(DataSourcesProperties dataSourcesProperties) {
             List<ItemRepository> repositories = new ArrayList<>();
             for (DataSourceEntry dataSourceEntry : dataSourcesProperties.getEntries()) {
