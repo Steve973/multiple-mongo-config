@@ -31,6 +31,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.domain.Example;
 import org.springframework.data.mapping.context.MappingContext;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -48,6 +49,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
 @EnableAutoConfiguration(exclude = {
@@ -86,12 +88,22 @@ public class MultipleMongoDatabaseTest {
         ItemRepository repo = repositories.get(0);
         repo.save(item);
 
-        // then
+        // then find the item that was persisted
         Collection<Item> foundCustom = repo.findAll();
         assertEquals(1, foundCustom.size());
 
+        // and using the interface searches in a collection named after the model class
+        // which is wrong, so none will be found
         Collection<Item> foundInterface = repo.findByName("test item");
         assertEquals(0, foundInterface.size());
+
+        // and this verifies that the item can be found by name when a method from the
+        // custom implementation is used
+        Item foundOne = repo.findOne(Example.of(Item.builder()
+                .name("test item")
+                .build()))
+                .orElse(null);
+        assertNotNull(foundOne);
     }
 
     @TestConfiguration
